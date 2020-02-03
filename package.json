@@ -1,0 +1,41 @@
+{
+  "name": "simple-array-extension",
+  "version": "0.0.1",
+  "description": "Simple array extensions",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "yarn jest --silent --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hugtechio/simple-array-extension.git"
+  },
+  "keywords": [
+    "jest",
+    "aws-sdk",
+    "dynamodb-data-mapper"
+  ],
+  "author": "hugtech.io",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hugtechio/simple-array-extension/issues"
+  },
+  "homepage": "https://github.com/hugtechio/simple-array-extension#readme",
+  "files": [
+    "dist/"
+  ],
+  "jest": {
+    "preset": "ts-jest",
+    "testPathIgnorePatterns": [
+      "dist/"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^25.1.1",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.1.0",
+    "typescript": "^3.7.3"
+  }
+}
