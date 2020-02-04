@@ -30,4 +30,4 @@ declare global {
 
 ## example
 
-See tests
+[See tests](https://github.com/hugtechio/simple-array-extension/blob/master/__tests__/index.ts)
