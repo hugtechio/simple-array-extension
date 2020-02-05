@@ -23,6 +23,76 @@ describe('index.ts', () => {
         });
     });
 
+    describe('#containsAll', () => {
+        const testArray = ['a', 'b','c','d','e']
+        const testArray2 = [{name: 'a'}, {name: 'b'} ,{name: 'c'}, {name: 'd'}, {name: 'e'}]
+
+        it('should be true, all item contains (value equality)', async () => {
+            const result = testArray.containsAll(['a','b','c'])
+            expect(result).toBeTruthy()
+        });
+
+        it('should be false, one item does not contain (value equality)', async () => {
+            const result = testArray.containsAll(['a','z','c'])
+            expect(result).toBeFalsy()
+        });
+
+        it('should be false, all items does not contain (value equality)', async () => {
+            const result = testArray.containsAll(['x','y','z'])
+            expect(result).toBeFalsy()
+        });
+
+        it('should be true, all item contains (object equality)', async () => {
+            const result = testArray2.containsAll([{name: 'a'}, {name: 'b'}], (v1, v2) => v1.name === v2.name)
+            expect(result).toBeTruthy()
+        });
+
+        it('should be false, one item does not contain (object equality)', async () => {
+            const result = testArray2.containsAll([{name: 'a'}, {name: 'z'}], (v1, v2) => v1.name === v2.name)
+            expect(result).toBeFalsy()
+        });
+
+        it('should be false, all items does not contain (object equality)', async () => {
+            const result = testArray2.containsAll([{name: 'y'}, {name: 'z'}], (v1, v2) => v1.name === v2.name)
+            expect(result).toBeFalsy()
+        });
+    })
+
+    describe('#containsAny', () => {
+        const testArray = ['a', 'b','c','d','e']
+        const testArray2 = [{name: 'a'}, {name: 'b'} ,{name: 'c'}, {name: 'd'}, {name: 'e'}]
+
+        it('should be true, all item contains', async () => {
+            const result = testArray.containsAny(['a','b','c'])
+            expect(result).toBeTruthy()
+        });
+
+        it('should be true, one item does not contain', async () => {
+            const result = testArray.containsAny(['a','z','c'])
+            expect(result).toBeTruthy()
+        });
+
+        it('should be false, all items does not contain', async () => {
+            const result = testArray.containsAny(['x','y','z'])
+            expect(result).toBeFalsy()
+        });
+
+        it('should be true, all item contains (object equality)', async () => {
+            const result = testArray2.containsAny([{name: 'a'}, {name: 'b'}], (v1, v2) => v1.name === v2.name)
+            expect(result).toBeTruthy()
+        });
+
+        it('should be true, one item does not contain (object equality)', async () => {
+            const result = testArray2.containsAny([{name: 'z'}, {name: 'b'}], (v1, v2) => v1.name === v2.name)
+            expect(result).toBeTruthy()
+        });
+
+        it('should be false, all items does not contain (object equality)', async () => {
+            const result = testArray2.containsAny([{name: 'y'}, {name: 'z'}], (v1, v2) => v1.name === v2.name)
+            expect(result).toBeFalsy()
+        });
+    })
+
     describe('#selectAs', () => {
         interface Src {
             a: Dst

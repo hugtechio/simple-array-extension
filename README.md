@@ -13,19 +13,21 @@ in ts file.
 import 'simple-array-extension'
 ```
 
-## exported functions (04, Feb, 2020)
+## exported functions (05, Feb, 2020)
 ```
 export {};
-declare type comparer = <T>(v1: T, v2: T) => boolean;
-declare type matcher = (value: any) => boolean;
+declare type comparer = (v1: any, v2: any) => boolean;
 declare global {
     interface Array<T> {
-        uniq<T>(comparer: comparer): T[];
-        contains<T>(value: T): boolean;
+        uniq<T>(comparer?: comparer): T[];
+        contains<T>(value: T, comparer?: comparer): boolean;
+        containsAll<T>(value: T[], comparer?: comparer): boolean;
+        containsAny<T>(value: T[], comparer?: comparer): boolean;
         nullOrEmpty(): boolean;
-        selectAs<R>(matcher: matcher, prop?: string): R[];
+        selectAs<R>(matcher: (value: T) => boolean, prop?: string): R[];
     }
 }
+
 ```
 
 ## example

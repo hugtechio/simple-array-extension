@@ -3,17 +3,20 @@
 export {}
 
 type matcher = (value: any) => boolean;
+type comparer = (v1: any, v2:any) => boolean;
 
 declare global {
     interface Array<T> {
-        uniq<T> (comparer?: (v1: T, v2:T) => boolean): T[];
-        contains<T> (value: T): boolean;
+        uniq<T> (comparer?: comparer): T[];
+        contains<T> (value: T, comparer?: comparer): boolean;
+        containsAll<T> (value: T[], comparer?: comparer): boolean;
+        containsAny<T> (value: T[], comparer?: comparer): boolean;
         nullOrEmpty (): boolean;
         selectAs<R> (matcher: (value: T) => boolean, prop?: string): R[];
     }
 }
 
-Array.prototype.uniq = function<T> (comparer?: (v1:T, v2:T) => boolean): T[] {
+Array.prototype.uniq = function<T> (comparer?: comparer): T[] {
     // @ts-ignore
     const comp = (vv1, vv2) => {
         if (typeof vv1 === 'object' || typeof vv2 === 'object') {
@@ -30,8 +33,29 @@ Array.prototype.uniq = function<T> (comparer?: (v1:T, v2:T) => boolean): T[] {
     })
 }
 
-Array.prototype.contains = function<T> (value: T): boolean {
-    return (this.indexOf(value) >= 0)
+Array.prototype.contains = function<T> (value: T, comparer?: comparer): boolean {
+    if (comparer) {
+        return (this.find(item => comparer(item, value)) !== undefined)
+    } else {
+        return (this.indexOf(value) >= 0)
+    }
+}
+
+Array.prototype.containsAll = function<T> (value: T[], comparer? :comparer): boolean {
+    let result = []
+    for (let i = 0; i < value.length; i++) {
+        result.push(this.contains(value[i], comparer))
+    }
+    return result.every(i => i)
+}
+
+Array.prototype.containsAny = function<T> (value: T[], comparer?: comparer): boolean {
+    for (let i = 0; i < value.length; i++) {
+        if (this.contains(value[i], comparer)) {
+            return true
+        }
+    }
+    return false
 }
 
 Array.prototype.nullOrEmpty = function (): boolean {
