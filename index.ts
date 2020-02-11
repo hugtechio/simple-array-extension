@@ -13,6 +13,11 @@ declare global {
         containsAny<T> (value: T[], comparer?: comparer): boolean;
         nullOrEmpty (): boolean;
         selectAs<R> (matcher: (value: T) => boolean, prop?: string): R[];
+        set<T> (ait: AsyncIterableIterator<T>): Promise<void>
+    }
+
+    interface AsyncIterableIterator<T> {
+        toArray<T> (): Promise<T[]>
     }
 }
 
@@ -79,4 +84,14 @@ Array.prototype.selectAs = function<R> (matcher: matcher, prop?: string): R[] {
     }
     const result = this.filter(item => matcher(item)).map(item => getter(item) as R)
     return result.filter(item => item !== null && item !== undefined)
+}
+
+Array.prototype.set = async function<T> (ait: AsyncIterableIterator<T>): Promise<void> {
+    let values = []
+    for await (const item of ait) {
+        values.push(item)
+    }
+    for (let i = 0; i < values.length; i++) {
+        this[i] = values[i]
+    }
 }

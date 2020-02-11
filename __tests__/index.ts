@@ -156,4 +156,22 @@ describe('index.ts', () => {
             expect(result).toEqual([])
         });
     })
+
+    describe('#set', () => {
+        it('should be converted to array from async iterator', async () => {
+            const ait = () => {
+                const ret: any = {}
+                ret[Symbol.asyncIterator] = async function * () {
+                    for (const item of ['1','2','3']) {
+                        yield item
+                    }
+                    return ret
+                }
+                return ret
+            }
+            const testArray = new Array<string>()
+            await testArray.set<string>(ait())
+            expect(testArray).toEqual(['1','2','3'])
+        }); 
+    })
 })
