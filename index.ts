@@ -14,10 +14,7 @@ declare global {
         nullOrEmpty (): boolean;
         selectAs<R> (matcher: (value: T) => boolean, prop?: string): R[];
         set<T> (ait: AsyncIterableIterator<T>): Promise<void>
-    }
-
-    interface AsyncIterableIterator<T> {
-        toArray<T> (): Promise<T[]>
+        flatten<T> (depth?: number): T[]; 
     }
 }
 
@@ -94,4 +91,15 @@ Array.prototype.set = async function<T> (ait: AsyncIterableIterator<T>): Promise
     for (let i = 0; i < values.length; i++) {
         this[i] = values[i]
     }
+}
+
+Array.prototype.flatten = function<T> (depth: number = 1): T[] {
+    const reducer = (acc:any, val:any) => {
+        if (Array.isArray(val) && depth > 1) {
+            return acc.concat(val.flatten(depth - 1))
+        }
+        const r = acc.concat(val)
+        return r
+    }
+    return this.reduce(reducer, [])
 }

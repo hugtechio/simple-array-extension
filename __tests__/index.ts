@@ -174,4 +174,35 @@ describe('index.ts', () => {
             expect(testArray).toEqual(['1','2','3'])
         }); 
     })
+
+    describe('#flatten', () => {
+        it('should be return flattened array. (Nothing is processed', async () => {
+            const testArray = [1,2,3,4,5]
+            const result = testArray.flatten()
+            expect(result).toEqual([1,2,3,4,5])
+        });
+
+        it('should be return flattened array', async () => {
+            const testArray = [1,2,3, [4, 5]]
+            const result = testArray.flatten()
+            expect(result).toEqual([1,2,3,4,5])
+        });
+
+        it('should be return flattened array (shallow)', async () => {
+            const testArray = [1,2,3, [4, [5]]]
+            const result = testArray.flatten()
+            expect(result).toEqual([1,2,3,4,[5]])
+        });
+
+        it('should be return flattened array (2 depth, shallow)', async () => {
+            const testArray = [1,2,3, [4, [5]]]
+            const result = testArray.flatten(2)
+            expect(result).toEqual([1,2,3,4,5])
+        });
+        it('should be return flattened array (2 depth deep)', async () => {
+            const testArray = [1,2,3, [4, [5,[6]]]]
+            const result = testArray.flatten(2)
+            expect(result).toEqual([1,2,3,4,5,[6]])
+        });
+    });
 })
