@@ -14,7 +14,12 @@ declare global {
         nullOrEmpty (): boolean;
         selectAs<R> (matcher: (value: T) => boolean, prop?: string): R[];
         set<T> (ait: AsyncIterableIterator<T>): Promise<void>
-        flatten<T> (depth?: number): T[]; 
+        flatten<T> (depth?: number): T[];
+        select<T>(condition: boolean): T[];
+        remove<T>(condition: matcher): T[];
+        clone<T>(): T[];
+        first<T>(): T;
+        last<T>(): T;
     }
 }
 
@@ -102,4 +107,25 @@ Array.prototype.flatten = function<T> (depth: number = 1): T[] {
         return r
     }
     return this.reduce(reducer, [])
+}
+
+Array.prototype.clone = function<T>(): T[] {
+    return [...this]
+}
+
+Array.prototype.remove = function<T>(condition: matcher): T[] {
+    const clone = [...this]
+    const result = clone.reduce((previous, current, index, []) => {
+        if (!condition(current)) previous.push(current)
+        return previous
+    })
+    return result
+}
+
+Array.prototype.first = function<T>(): T {
+    return this[0]
+}
+
+Array.prototype.last = function<T>(): T {
+    return this[this.length - 1]
 }
