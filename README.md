@@ -13,9 +13,10 @@ in ts file.
 import 'simple-array-extension'
 ```
 
-## exported functions (13, Feb, 2020)
+## exported functions (27, Mar, 2020)
 ```
 export {};
+declare type matcher = (value: any) => boolean;
 declare type comparer = (v1: any, v2: any) => boolean;
 declare global {
     interface Array<T> {
@@ -27,8 +28,14 @@ declare global {
         selectAs<R>(matcher: (value: T) => boolean, prop?: string): R[];
         set<T>(ait: AsyncIterableIterator<T>): Promise<void>;
         flatten<T>(depth?: number): T[];
+        select<T>(condition: boolean): T[];
+        remove<T>(condition: matcher): T[];
+        clone<T>(): T[];
+        first<T>(): T;
+        last<T>(): T;
     }
 }
+
 
 
 ```
