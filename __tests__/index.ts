@@ -205,4 +205,12 @@ describe('index.ts', () => {
             expect(result).toEqual([1,2,3,4,5,[6]])
         });
     });
+
+    describe('#remove', () => {
+        it('should be return array. (condition matched)', async () => {
+            const testArray = [1,2,3,4,5]
+            const result = testArray.remove(d => d === 2)
+            expect(result).toEqual([1,3,4,5])
+        });
+    });
 })

@@ -114,12 +114,7 @@ Array.prototype.clone = function<T>(): T[] {
 }
 
 Array.prototype.remove = function<T>(condition: matcher): T[] {
-    const clone = [...this]
-    const result = clone.reduce((previous, current, index, []) => {
-        if (!condition(current)) previous.push(current)
-        return previous
-    })
-    return result
+    return this.filter(d => !condition(d))
 }
 
 Array.prototype.first = function<T>(): T {
